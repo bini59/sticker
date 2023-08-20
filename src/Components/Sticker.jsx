@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
     makeMoveable,
@@ -19,6 +19,19 @@ export const Sticker = ({state, zIndex, src, bounds, onclick, removeSticker}) =>
         return new MoveableHelper();
     });
     const ref = useRef(null);
+    const btnRef = useRef(null);
+
+    const [rect, setRect] = useState({
+        left: ref.current?.offsetWidth,
+        top: 120,
+    });
+
+    useEffect(() => {
+        setRect({
+            left: ref.current?.offsetWidth+80,
+            top: 120,
+        })
+    }, [ref.current?.offsetWidth])
 
     const onDrag = (e) => {
         // check bounds
@@ -34,36 +47,52 @@ export const Sticker = ({state, zIndex, src, bounds, onclick, removeSticker}) =>
         const nowRight = nowLeft + width;
         const nowBottom = nowTop + height;
 
-        console.log(nowLeft)
-        console.log(left-100+(width-target.offsetWidth)/2)
-        console.log(right-width)
-
-
+        let flag = true;
         
         if(nowLeft < left) {
             e.translate[0] = left - 100 + (width - target.offsetWidth) / 2;
+            flag = false;
         }
-        if(nowTop < top) {
-            e.translate[1] = top-150+(height-target.offsetHeight)/2;
+        if (nowTop < top) {
+            e.translate[1] = top - 150 + (height - target.offsetHeight) / 2;
+            flag = false;
         }
         if (nowRight > right) {
-            e.translate[0] =right - target.offsetWidth - 100 - (width - target.offsetWidth)/2;
+            e.translate[0] = right - target.offsetWidth - 100 - (width - target.offsetWidth) / 2;
+            flag = false;
         }
-
         if (nowBottom > bottom) {
-            e.translate[1] = bottom - target.offsetHeight - 150 - (height - target.offsetHeight)/2;
+            e.translate[1] = bottom - target.offsetHeight - 150 - (height - target.offsetHeight) / 2;
+            flag = false;
+        }
+        helper.onDrag(e);
+    }
+
+    const onResize = (e) => {
+
+        function extractScaleValues(transformString) {
+            const scaleMatch = transformString.match(/scale\(([^,]+), ([^)]+)\)/);
+        
+            if (scaleMatch && scaleMatch.length === 3) {
+                const scaleX = parseFloat(scaleMatch[1]);
+                const scaleY = parseFloat(scaleMatch[2]);
+                return { scaleX, scaleY };
+            } else {
+                return null;
+            }
         }
 
-        helper.onDrag(e);
-
-
-
+        helper.onScale(e);
+        const { scaleX, scaleY } = extractScaleValues(ref.current.style.transform);
+        btnRef.current.style.transform = `scale(${1 / scaleX}, ${1 / scaleY})`;
+        btnRef.current.style.top = `${ -30 - (1 / scaleY) * 10}px`;
     }
 
     return (
-        <div className="container" style={{ zIndex: zIndex, position: "relative"}} >
-            <div className="target" ref={ref} >
-                <button className="remove" onClick={()=>removeSticker()} style={{display : state ? "block" : "none", fontSize: "20px"}}>✕</button>
+        <div className="container" style={{ zIndex: zIndex, position: "relative" }} >
+            
+            <div className="target" ref={ref} >    
+                <button ref={btnRef} className="remove" onClick={() => removeSticker()} style={{display: state ? "block" : "none",fontSize: "20px"}}>✕</button>
                 <img onClick={(e) => onclick()} src={src} alt="sticker" />
             </div>
 
@@ -76,7 +105,7 @@ export const Sticker = ({state, zIndex, src, bounds, onclick, removeSticker}) =>
                 onDragStart={helper.onDragStart}
                 onDrag={onDrag}
                 onScaleStart={helper.onScaleStart}
-                onScale={helper.onScale}
+                onScale={onResize}
                 onRotateStart={helper.onRotateStart}
                 onRotate={helper.onRotate}
                 hideDefaultLines={!state}
