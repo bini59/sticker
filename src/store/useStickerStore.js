@@ -3,20 +3,22 @@ import { create } from "zustand";
 export const useStickerStore = create((set) => ({
     id: 1,
     stickers: [],
+    zIndex: 1,
 
     // 스티커를 추가하는 함수, id를 통해 스티커를 구분한다.
-    addSticker: () => {
+    addSticker: (src) => {
         set((state) => ({
             stickers: [
                 ...state.stickers,
                 {
                     id: state.id + 1,
-                    src: "https://picsum.photos/320/240",
-                    zIndex: state.stickers.length + 1,
+                    src: src,
+                    zIndex: state.zIndex + 1,
                     state: false,
                 },
             ],
             id: state.id + 1,
+            zIndex: state.zIndex + 1,
         }));
     },
 
@@ -36,7 +38,7 @@ export const useStickerStore = create((set) => ({
                 if (sticker.id === id) {
                     return {
                         ...sticker,
-                        zIndex: state.stickers.length + 1,
+                        zIndex: state.zIndex + 1,
                         state: true,
                     };
                 } else {
@@ -46,6 +48,18 @@ export const useStickerStore = create((set) => ({
                     };
                 }
             }),
+            zIndex: state.zIndex + 1,
         }));
     },
+
+    removeState: () => {
+        set((state) => ({
+            stickers: state.stickers.map((sticker) => {
+                return {
+                    ...sticker,
+                    state: false,
+                };
+            }),
+        }));
+    }
 }));
