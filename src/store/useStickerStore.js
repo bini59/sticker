@@ -51,4 +51,15 @@ export const useStickerStore = create((set) => ({
             zIndex: state.zIndex + 1,
         }));
     },
+
+    removeState: () => {
+        set((state) => ({
+            stickers: state.stickers.map((sticker) => {
+                return {
+                    ...sticker,
+                    state: false,
+                };
+            }),
+        }));
+    }
 }));

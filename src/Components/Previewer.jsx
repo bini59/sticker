@@ -5,7 +5,7 @@ import { useRef, useEffect } from "react";
 import { useRefStore } from "../store/useRefStore";
 
 export const Previewer = () => {
-    const { stickers, onclick, removeSticker } = useStickerStore();
+    const { stickers, onclick, removeSticker, removeState } = useStickerStore();
     const { setRef } = useRefStore();
     const containerRef = useRef(null);
 
@@ -19,10 +19,16 @@ export const Previewer = () => {
         right: containerRef.current?.clientWidth,
         bottom: containerRef.current?.clientHeight
     }
+
+    const onClick = (e) => {
+        if (e.target === containerRef.current) {   
+            removeState();
+        }
+    }
     
 
     return (
-        <section className="sticker-section" ref={containerRef}>
+        <section className="sticker-section" ref={containerRef} onClick={onClick}>
             {stickers.map((sticker) => (
 				<Sticker
 					key={sticker.id}
