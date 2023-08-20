@@ -23,7 +23,7 @@ export const Sticker = ({state, zIndex, src, onclick, removeSticker}) => {
         <div className="container" style={{zIndex: zIndex, position:"relative"}} >
             <div className="target" ref={ref} >
                 <button className="remove" onClick={()=>removeSticker()} style={{display : state ? "block" : "none"}}>X</button>
-                <img onClick={(e) => onclick()} src="https://picsum.photos/320/240" alt="sticker" width="320" height="240" />
+                <img onClick={(e) => onclick()} src={src} alt="sticker" width="320" height="240" />
             </div>
 
             <Moveable
