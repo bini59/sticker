@@ -1,0 +1,38 @@
+.sticker-section{
+    width: 60%;
+    height: 100vh;
+    background-color: #c5c5c5;
+
+    
+    .target {
+        position: absolute;
+        top: 150px;
+        left: 100px;
+        line-height: 100px;
+        box-sizing: border-box;
+        display: inline-block;
+        height: auto;
+    }
+    
+    .remove{
+        position: absolute;
+        top: -30px;
+        right: 0;
+
+        width: 25px;
+        height: 25px;
+
+        font-size: 20px;
+
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+
+    }
+
+    .target img{
+        width: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}

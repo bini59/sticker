@@ -1,0 +1,45 @@
+.file-section{
+    width: 40%;
+    height: 100vh;
+    background-color: #f5f5f5;
+
+    .file-select{
+        
+        .select-btn{
+            width: 80%;
+            height: 50px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .select-input{
+            display: none;
+        }        
+    }
+
+    .img-section{
+
+        display: flex;
+        flex-wrap: wrap;
+
+        .img-box{
+            width: 120px;
+            margin: 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+
+            img{
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+
+    }
+}
