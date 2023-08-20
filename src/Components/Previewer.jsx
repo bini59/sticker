@@ -11,7 +11,7 @@ export const Previewer = () => {
 
     useEffect(() => {
         setRef(containerRef);
-    }, [containerRef])
+    }, [containerRef, setRef])
     
     const containerBounds = {
         left: 0,
