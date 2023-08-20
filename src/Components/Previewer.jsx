@@ -1,11 +1,18 @@
 import { Sticker } from "./Sticker"
 import { useStickerStore } from "../store/useStickerStore"
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+
+import { useRefStore } from "../store/useRefStore";
 
 export const Previewer = () => {
     const { stickers, onclick, removeSticker } = useStickerStore();
-
+    const { setRef } = useRefStore();
     const containerRef = useRef(null);
+
+    useEffect(() => {
+        setRef(containerRef);
+    }, [containerRef])
+    
     const containerBounds = {
         left: 0,
         top: 0,
