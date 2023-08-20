@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.target {
+  position: absolute;
+  width: 320px;
+  height: 240px;
+  top: 150px;
+  left: 100px;
+  line-height: 100px;
+  text-align: center;
+  /* background: #ee8; */
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+
+.remove{
+  position: absolute;
+  top: -25px;
+  right: 0;
+}
